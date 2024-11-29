@@ -1,0 +1,39 @@
+pipeline:
+  name: PIPE-1
+  identifier: PIPE1
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: democonnector
+        build: <+input>
+        sparseCheckout: []
+  stages:
+    - stage:
+        name: BUILD
+        identifier: BUILD
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  identifier: build_python_app
+                  name: Build Python App
+                  spec:
+                    shell: Sh
+                    command: |-
+                      echo "Welcome to Harness CI"
+                      python -m pip install --upgrade pip
+                      pip install  pytest
+                      if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
